@@ -2,8 +2,6 @@ import ServerError from '../helpers/serverError.helper.js'
 import entrevistaService from '../services/entrevista.service.js'
 
 class EntrevistaController {
-
-    /* POST /api/entrevista  -> la familia solicita una entrevista */
     create = async (request, response) => {
         try {
             const entrevista = await entrevistaService.create(request.body, request.user)
@@ -17,8 +15,6 @@ class EntrevistaController {
             return this.#handleError(error, response, "solicitar entrevista")
         }
     }
-
-    /* GET /api/entrevista  -> todas las entrevistas (director) */
     getAll = async (request, response) => {
         try {
             const entrevistas = await entrevistaService.getAll()
@@ -33,7 +29,6 @@ class EntrevistaController {
         }
     }
 
-    /* GET /api/entrevista/mias  -> entrevistas de la familia logueada */
     getMine = async (request, response) => {
         try {
             const entrevistas = await entrevistaService.getMine(request.user)
@@ -48,7 +43,6 @@ class EntrevistaController {
         }
     }
 
-    /* PUT /api/entrevista/:entrevista_id  -> el director programa/cancela */
     updateEstado = async (request, response) => {
         try {
             const entrevista = await entrevistaService.updateEstado(request.params.entrevista_id, request.body, request.user)

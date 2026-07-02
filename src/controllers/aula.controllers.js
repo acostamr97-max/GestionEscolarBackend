@@ -1,11 +1,6 @@
 import ServerError from '../helpers/serverError.helper.js'
 import aulaService from '../services/aula.service.js'
-
-/* Controller del Aula: maneja request/response y delega la logica en el service.
-   No tiene queries ni reglas de negocio. */
 class AulaController {
-
-    /* POST /api/aula  -> crear aula (solo director) */
     create = async (request, response) => {
         try {
             const { nombre, docente, turno, descripcion } = request.body
@@ -22,7 +17,6 @@ class AulaController {
         }
     }
 
-    /* GET /api/aula  -> listar todas las aulas (director) */
     getAll = async (request, response) => {
         try {
             const aulas = await aulaService.getAll()
@@ -37,7 +31,6 @@ class AulaController {
         }
     }
 
-    /* GET /api/aula/mis-aulas  -> aulas del docente logueado */
     getMine = async (request, response) => {
         try {
             const docente_id = request.user.id
@@ -52,8 +45,6 @@ class AulaController {
             return this.#handleError(error, response, "listar mis aulas")
         }
     }
-
-    /* GET /api/aula/:aula_id  -> detalle de un aula */
     getById = async (request, response) => {
         try {
             const aula = await aulaService.getById(request.params.aula_id)
@@ -68,7 +59,6 @@ class AulaController {
         }
     }
 
-    /* PUT /api/aula/:aula_id  -> actualizar (solo director) */
     updateById = async (request, response) => {
         try {
             const aula = await aulaService.updateById(request.params.aula_id, request.body)
@@ -82,8 +72,6 @@ class AulaController {
             return this.#handleError(error, response, "actualizar aula")
         }
     }
-
-    /* DELETE /api/aula/:aula_id  -> baja logica (solo director) */
     deleteById = async (request, response) => {
         try {
             const aula = await aulaService.deleteById(request.params.aula_id)
@@ -98,7 +86,6 @@ class AulaController {
         }
     }
 
-    /* Helper privado para no repetir el manejo de errores en cada metodo */
     #handleError(error, response, accion) {
         if (error instanceof ServerError) {
             return response.status(error.status).json({

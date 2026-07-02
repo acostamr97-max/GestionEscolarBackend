@@ -1,10 +1,7 @@
 import ServerError from '../helpers/serverError.helper.js'
 import alumnoService from '../services/alumno.service.js'
 
-/* Controller del Alumno. Pasa request.user al service para que valide permisos por aula. */
 class AlumnoController {
-
-    /* POST /api/alumno  -> agregar alumno a un aula */
     create = async (request, response) => {
         try {
             const alumno = await alumnoService.create(request.body, request.user)
@@ -18,8 +15,6 @@ class AlumnoController {
             return this.#handleError(error, response, "agregar alumno")
         }
     }
-
-    /* GET /api/alumno/aula/:aula_id  -> alumnos de un aula */
     getByAula = async (request, response) => {
         try {
             const alumnos = await alumnoService.getByAula(request.params.aula_id, request.user)
@@ -34,7 +29,6 @@ class AlumnoController {
         }
     }
 
-    /* GET /api/alumno/:alumno_id  -> detalle */
     getById = async (request, response) => {
         try {
             const alumno = await alumnoService.getById(request.params.alumno_id, request.user)
@@ -49,7 +43,6 @@ class AlumnoController {
         }
     }
 
-    /* PUT /api/alumno/:alumno_id  -> actualizar */
     updateById = async (request, response) => {
         try {
             const alumno = await alumnoService.updateById(request.params.alumno_id, request.body, request.user)
@@ -64,7 +57,6 @@ class AlumnoController {
         }
     }
 
-    /* DELETE /api/alumno/:alumno_id  -> quitar (baja logica) */
     deleteById = async (request, response) => {
         try {
             const alumno = await alumnoService.deleteById(request.params.alumno_id, request.user)

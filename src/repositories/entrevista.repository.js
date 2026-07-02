@@ -1,13 +1,11 @@
 import Entrevista from '../models/entrevistas.model.js'
 
-/* Capa de acceso a datos de Entrevista. */
 class EntrevistaRepository {
 
     async create(data) {
         return await Entrevista.create(data)
     }
 
-    /* Todas las entrevistas (vista del director), de la mas nueva a la mas vieja */
     async getAll() {
         return await Entrevista.find()
             .populate('familia', 'nombre email')
@@ -15,7 +13,6 @@ class EntrevistaRepository {
             .sort({ fecha: -1 })
     }
 
-    /* Entrevistas solicitadas por una familia concreta */
     async getByFamilia(familia_id) {
         return await Entrevista.find({ familia: familia_id })
             .populate('director', 'nombre email')

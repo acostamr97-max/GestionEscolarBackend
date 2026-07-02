@@ -1,4 +1,4 @@
-/*  (Lógica de negocio: hashing con bcrypt y generación de tokens)*/
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -10,11 +10,9 @@ class AuthService {
     const existingUser = await userRepository.findByEmail(userData.email);
     if (existingUser) throw new Error('El email ya está registrado');
 
-    // Hashing de contraseña con bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userData.password, salt);
 
-    // Token único de activación
     const verificationToken = crypto.randomBytes(32).toString('hex');
 
     const newUser = await userRepository.create({
@@ -23,7 +21,6 @@ class AuthService {
       verificationToken
     });
 
-    // Envío de email para verificación
     await sendVerificationEmail(newUser.email, verificationToken);
     return { message: 'Registro exitoso. Revisa tu email para verificar la cuenta.' };
   }
@@ -36,7 +33,6 @@ class AuthService {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new Error('Credenciales inválidas');
 
-    // Generación de JWT con expiración
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,

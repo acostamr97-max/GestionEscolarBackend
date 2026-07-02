@@ -6,10 +6,6 @@ import { USER_ROLES } from '../const/roles.const.js'
 
 const aulaRouter = express.Router()
 
-/* Todas las rutas requieren estar logueado (authMiddleware).
-   Las sensibles (crear/editar/borrar) ademas exigen rol director (roleMiddleware). */
-
-/* Crear aula - solo director */
 aulaRouter.post(
     '/',
     authMiddleware,
@@ -17,7 +13,6 @@ aulaRouter.post(
     aulaController.create
 )
 
-/* Listar todas las aulas - solo director */
 aulaRouter.get(
     '/',
     authMiddleware,
@@ -25,8 +20,7 @@ aulaRouter.get(
     aulaController.getAll
 )
 
-/* Aulas del docente logueado - solo docente.
-   Va ANTES de '/:aula_id' para que 'mis-aulas' no se confunda con un id. */
+
 aulaRouter.get(
     '/mis-aulas',
     authMiddleware,
@@ -34,7 +28,6 @@ aulaRouter.get(
     aulaController.getMine
 )
 
-/* Detalle de un aula - director o docente */
 aulaRouter.get(
     '/:aula_id',
     authMiddleware,
@@ -42,7 +35,6 @@ aulaRouter.get(
     aulaController.getById
 )
 
-/* Actualizar aula - solo director */
 aulaRouter.put(
     '/:aula_id',
     authMiddleware,
@@ -50,7 +42,6 @@ aulaRouter.put(
     aulaController.updateById
 )
 
-/* Eliminar (baja logica) aula - solo director */
 aulaRouter.delete(
     '/:aula_id',
     authMiddleware,

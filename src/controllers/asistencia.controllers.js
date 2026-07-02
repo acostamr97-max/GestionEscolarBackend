@@ -2,8 +2,6 @@ import ServerError from '../helpers/serverError.helper.js'
 import asistenciaService from '../services/asistencia.service.js'
 
 class AsistenciaController {
-
-    /* POST /api/asistencia  -> registrar asistencia de un alumno */
     create = async (request, response) => {
         try {
             const asistencia = await asistenciaService.create(request.body, request.user)
@@ -17,8 +15,6 @@ class AsistenciaController {
             return this.#handleError(error, response, "registrar asistencia")
         }
     }
-
-    /* GET /api/asistencia/aula/:aula_id?fecha=YYYY-MM-DD  -> asistencia del aula en una fecha */
     getByAulaAndFecha = async (request, response) => {
         try {
             const { fecha } = request.query
@@ -34,7 +30,6 @@ class AsistenciaController {
         }
     }
 
-    /* GET /api/asistencia/alumno/:alumno_id  -> historial del alumno */
     getByAlumno = async (request, response) => {
         try {
             const asistencias = await asistenciaService.getByAlumno(request.params.alumno_id, request.user)
@@ -49,7 +44,6 @@ class AsistenciaController {
         }
     }
 
-    /* PUT /api/asistencia/:asistencia_id  -> corregir estado */
     updateById = async (request, response) => {
         try {
             const asistencia = await asistenciaService.updateById(request.params.asistencia_id, request.body, request.user)

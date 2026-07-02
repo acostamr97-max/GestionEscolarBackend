@@ -10,7 +10,6 @@ class AulaService {
             throw new ServerError("El nombre del aula debe tener al menos 2 caracteres", 400)
         }
 
-        /* Solo validamos el docente si efectivamente se envio uno */
         if (docente) {
             const docente_user = await userRepository.getById(docente)
             if (!docente_user) {
@@ -21,21 +20,17 @@ class AulaService {
             }
         }
 
-        /* Si docente vino vacio o undefined, lo guardamos como null */
         return await aulaRepository.create({ nombre, docente: docente || null, turno, descripcion })
     }
 
-    /* Lista todas las aulas (vista del director) */
     async getAll() {
         return await aulaRepository.getAll()
     }
 
-    /* Lista las aulas de un docente (vista del docente sobre lo suyo) */
     async getByDocente(docente_id) {
         return await aulaRepository.getByDocente(docente_id)
     }
 
-    /* Trae un aula puntual, error si no existe */
     async getById(aula_id) {
         const aula = await aulaRepository.getById(aula_id)
         if (!aula) {
@@ -44,7 +39,6 @@ class AulaService {
         return aula
     }
 
-    /* Actualiza un aula. Solo toca los campos enviados. */
     async updateById(aula_id, { nombre, turno, descripcion, docente }) {
         const aula = await aulaRepository.getById(aula_id)
         if (!aula) {
@@ -62,9 +56,6 @@ class AulaService {
         if (turno !== undefined) update_data.turno = turno
         if (descripcion !== undefined) update_data.descripcion = descripcion
 
-        /* Si se quiere cambiar el docente:
-           - si viene un id, validamos que sea un docente real y lo asignamos;
-           - si viene vacio o null, desasignamos (el aula queda sin docente). */
         if (docente !== undefined) {
             if (docente) {
                 const docente_user = await userRepository.getById(docente)
@@ -84,7 +75,6 @@ class AulaService {
         return await aulaRepository.updateById(aula_id, update_data)
     }
 
-    /* Baja logica del aula */
     async deleteById(aula_id) {
         const aula = await aulaRepository.getById(aula_id)
         if (!aula) {

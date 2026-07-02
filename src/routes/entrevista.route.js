@@ -6,7 +6,6 @@ import { USER_ROLES } from '../const/roles.const.js'
 
 const entrevistaRouter = express.Router()
 
-/* La familia solicita una entrevista */
 entrevistaRouter.post(
     '/',
     authMiddleware,
@@ -14,8 +13,6 @@ entrevistaRouter.post(
     entrevistaController.create
 )
 
-/* La familia ve sus propias solicitudes.
-   Va antes de cualquier ':id' para que 'mias' no se confunda con un id. */
 entrevistaRouter.get(
     '/mias',
     authMiddleware,
@@ -23,7 +20,6 @@ entrevistaRouter.get(
     entrevistaController.getMine
 )
 
-/* El director ve todas las entrevistas */
 entrevistaRouter.get(
     '/',
     authMiddleware,
@@ -31,7 +27,6 @@ entrevistaRouter.get(
     entrevistaController.getAll
 )
 
-/* El director programa o cancela una entrevista */
 entrevistaRouter.put(
     '/:entrevista_id',
     authMiddleware,

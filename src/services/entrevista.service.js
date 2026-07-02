@@ -5,11 +5,8 @@ import mailer_transport from '../config/mailer.config.js'
 import { ENVIRONMENT } from '../config/environment.config.js'
 import { USER_ROLES, ENTREVISTA_ESTADOS, ENTREVISTA_ESTADOS_LIST } from '../const/roles.const.js'
 
-/* Logica de negocio de Entrevista.
-   La familia solicita una entrevista; le llega al director (y se le avisa por mail). */
 class EntrevistaService {
 
-    /* Intenta avisar por mail al director. No corta el flujo si el mail falla. */
     async #avisarDirectorPorMail(director, familia, fecha, motivo) {
         if (!director || !director.email) return
         try {
@@ -28,7 +25,6 @@ class EntrevistaService {
         }
     }
 
-    /* Crear una solicitud de entrevista. La hace un usuario con rol familia. */
     async create({ fecha, motivo }, user) {
         if (user.role !== USER_ROLES.FAMILIA) {
             throw new ServerError("Solo una familia puede solicitar una entrevista", 403)
@@ -37,7 +33,6 @@ class EntrevistaService {
             throw new ServerError("Debe indicarse una fecha para la entrevista", 400)
         }
 
-        /* Busco un director para asignarle la solicitud (tomo el primero disponible) */
         const directores = await userRepository.getByRole(USER_ROLES.DIRECTOR)
         const director = directores.length > 0 ? directores[0] : null
 
@@ -49,24 +44,20 @@ class EntrevistaService {
             estado: ENTREVISTA_ESTADOS.PENDIENTE
         })
 
-        /* Aviso por mail al director (no bloqueante) */
         const familia = await userRepository.getById(user.id)
         await this.#avisarDirectorPorMail(director, familia, fecha, motivo)
 
         return nueva
     }
 
-    /* Listar todas las entrevistas (solo director) */
     async getAll() {
         return await entrevistaRepository.getAll()
     }
 
-    /* Listar las entrevistas de la familia logueada */
     async getMine(user) {
         return await entrevistaRepository.getByFamilia(user.id)
     }
 
-    /* El director cambia el estado (programada / cancelada) y/o la fecha */
     async updateEstado(entrevista_id, { estado, fecha }, user) {
         if (user.role !== USER_ROLES.DIRECTOR) {
             throw new ServerError("Solo el director puede gestionar entrevistas", 403)

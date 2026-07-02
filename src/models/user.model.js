@@ -17,15 +17,13 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: USER_ROLES_LIST,   /* 'director' | 'docente' | 'familia' */
+        enum: USER_ROLES_LIST,   
         required: true
     },
     activo: {
         type: Boolean,
         default: true
     },
-    /* Arranca en false: el usuario debe verificar su email antes de poder loguearse.
-       Esto es lo que pide la consigna (verificacion por correo). */
     email_verificado: {
         type: Boolean,
         default: false,
