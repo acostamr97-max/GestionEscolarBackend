@@ -30,6 +30,10 @@ Sigue estos pasos para clonar e instalar el proyecto localmente de manera correc
    pnpm install
 # o usando npm / yarn
 npm install
+
+
+
+🛣️
 Endpoint:
 POST, /register, Registra un nuevo usuario en el sistema.
 GET, /verify-email, Verifica la dirección de correo electrónico del usuario.
@@ -37,7 +41,12 @@ POST, /login, Autentica al usuario y devuelve el token de sesión (JWT).
 POST, /forgot-password, Solicita un enlace/token de recuperación por contraseña olvidada.
 POST, /reset-password, Procesa el cambio de contraseña utilizando el token válido.
 POST, /login-recovery, Permite el inicio de sesión alternativo mediante un token de recuperación de cuenta.
-📂 Estructura del Proyecto (Puntos clave)
+
+
+
+
+📂 
+Estructura del Proyecto (Puntos clave)
 ./src/main.js: Punto de entrada principal de la aplicación donde se inicializa el servidor Express y las conexiones.
 
 ./src/routes/auth.route.js: Definición de las rutas del módulo de autenticación presentadas arriba.
